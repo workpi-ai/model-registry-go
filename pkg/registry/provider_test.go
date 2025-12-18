@@ -28,7 +28,7 @@ func TestProviderMerge(t *testing.T) {
 				},
 				Features: Features{
 					ToolUse:          true,
-					Reasoning:        false,
+					Thinking:         false,
 					StructuredOutput: true,
 				},
 				Parameters: Parameters{
@@ -132,7 +132,7 @@ func TestModelMerge(t *testing.T) {
 				},
 				Features: Features{
 					ToolUse:          true,
-					Reasoning:        false,
+					Thinking:        false,
 					StructuredOutput: true,
 				},
 			},
@@ -147,7 +147,7 @@ func TestModelMerge(t *testing.T) {
 					MaxOutput: 8000,
 				},
 				Features: Features{
-					Reasoning: true,
+					Thinking: true,
 				},
 			},
 		},
@@ -167,7 +167,7 @@ func TestModelMerge(t *testing.T) {
 		t.Errorf("Expected MaxOutput to be merged to 8000, got %d", base.APIs.ChatCompletion.Context.MaxOutput)
 	}
 
-	if !base.APIs.ChatCompletion.Features.Reasoning {
+	if !base.APIs.ChatCompletion.Features.Thinking {
 		t.Error("Expected Reasoning to be merged to true")
 	}
 
@@ -187,7 +187,7 @@ func TestChatCompletionMerge(t *testing.T) {
 		},
 		Features: Features{
 			ToolUse:          true,
-			Reasoning:        false,
+			Thinking:        false,
 			StructuredOutput: true,
 		},
 		Parameters: Parameters{
@@ -204,7 +204,7 @@ func TestChatCompletionMerge(t *testing.T) {
 			MaxOutput: 8000,
 		},
 		Features: Features{
-			Reasoning: true,
+			Thinking: true,
 		},
 		Parameters: Parameters{
 			Temperature: 0.5,
@@ -226,7 +226,7 @@ func TestChatCompletionMerge(t *testing.T) {
 		t.Errorf("Expected MaxOutput to be merged to 8000, got %d", base.Context.MaxOutput)
 	}
 
-	if !base.Features.Reasoning {
+	if !base.Features.Thinking {
 		t.Error("Expected Reasoning to be merged to true")
 	}
 

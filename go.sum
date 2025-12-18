@@ -7,8 +7,8 @@ github.com/google/go-querystring v1.1.0 h1:AnCroh3fv4ZBgVIf1Iwtovgjaw/GiKJo8M8yD
 github.com/google/go-querystring v1.1.0/go.mod h1:Kcdr2DB4koayq7X8pmAG4sNG59So17icRSOU623lUBU=
 github.com/workpi-ai/go-utils v0.0.2 h1:JhVO6tsv/cGOSYQPBwetZE2DwA9Sv0L5ipTj136ZVp8=
 github.com/workpi-ai/go-utils v0.0.2/go.mod h1:mCZio+vwblIziRQiV8KBtBaN9zsTZLJso1yLUfBFxJY=
-github.com/workpi-ai/model-registry v0.1.1 h1:RFQt4IZVfpYSb2oo5KBGtO2gxtfjm8HBnEqk8E8R13c=
-github.com/workpi-ai/model-registry v0.1.1/go.mod h1:lGqrRkr1EgT1td4wb93fOmiuCmDvQwM/5W75mUoQXss=
+github.com/workpi-ai/model-registry v0.1.7 h1:jQOKU2YaOG8hDsiEibOh+zb9F5t0Lv0e1fPpgLLCoZc=
+github.com/workpi-ai/model-registry v0.1.7/go.mod h1:lGqrRkr1EgT1td4wb93fOmiuCmDvQwM/5W75mUoQXss=
 golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
