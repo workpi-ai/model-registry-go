@@ -128,8 +128,11 @@ func (c *ChatCompletion) Copy() *ChatCompletion {
 		},
 		Features: Features{
 			ToolUse:          c.Features.ToolUse,
-			Reasoning:        c.Features.Reasoning,
+			Thinking:         c.Features.Thinking,
+			ThinkingLevels:   c.Features.ThinkingLevels,
 			StructuredOutput: c.Features.StructuredOutput,
+			AudioInput:       c.Features.AudioInput,
+			ImageOutput:      c.Features.ImageOutput,
 		},
 		Parameters: c.Parameters.Copy(),
 	}
@@ -145,8 +148,11 @@ func (c *ChatCompletion) Merge(override *ChatCompletion) {
 	SetIfNotZero(&c.Context.MaxOutput, override.Context.MaxOutput)
 
 	SetIfNotZero(&c.Features.ToolUse, override.Features.ToolUse)
-	SetIfNotZero(&c.Features.Reasoning, override.Features.Reasoning)
+	SetIfNotZero(&c.Features.Thinking, override.Features.Thinking)
+	SetIfNotZero(&c.Features.ThinkingLevels, override.Features.ThinkingLevels)
 	SetIfNotZero(&c.Features.StructuredOutput, override.Features.StructuredOutput)
+	SetIfNotZero(&c.Features.AudioInput, override.Features.AudioInput)
+	SetIfNotZero(&c.Features.ImageOutput, override.Features.ImageOutput)
 
 	c.Parameters.Merge(&override.Parameters)
 }
@@ -158,6 +164,9 @@ type Context struct {
 
 type Features struct {
 	ToolUse          bool `yaml:"tool_use" mapstructure:"tool_use"`
-	Reasoning        bool `yaml:"reasoning" mapstructure:"reasoning"`
+	Thinking         bool `yaml:"thinking" mapstructure:"thinking"`
+	ThinkingLevels   bool `yaml:"thinking_levels" mapstructure:"thinking_levels"`
 	StructuredOutput bool `yaml:"structured_output" mapstructure:"structured_output"`
+	AudioInput       bool `yaml:"audio_input" mapstructure:"audio_input"`
+	ImageOutput      bool `yaml:"image_output" mapstructure:"image_output"`
 }
