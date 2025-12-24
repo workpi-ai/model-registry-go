@@ -3,9 +3,12 @@ package registry
 import "fmt"
 
 type Model struct {
-	Name     string    `yaml:"name" mapstructure:"name"`
+	Name         string   `yaml:"name" mapstructure:"name"`
+	IsDeprecated bool     `yaml:"is_deprecated" mapstructure:"is_deprecated"`
+	Agents       []string `yaml:"agents" mapstructure:"agents"`
+	APIs         APIs     `yaml:"apis" mapstructure:"apis"`
+
 	Provider *Provider `yaml:"-" mapstructure:"-"`
-	APIs     APIs      `yaml:"apis" mapstructure:"apis"`
 }
 
 func (m *Model) Copy() *Model {
@@ -14,8 +17,10 @@ func (m *Model) Copy() *Model {
 	}
 
 	model := &Model{
-		Name:     m.Name,
-		Provider: m.Provider,
+		Name:         m.Name,
+		IsDeprecated: m.IsDeprecated,
+		Agents:       CopySlice(m.Agents),
+		Provider:     m.Provider,
 		APIs: APIs{
 			ChatCompletion: m.APIs.ChatCompletion.Copy(),
 		},
@@ -52,6 +57,11 @@ func (m *Model) Validate() error {
 
 func (m *Model) Merge(override *Model) {
 	SetIfNotZero(&m.Name, override.Name)
+	SetIfNotZero(&m.IsDeprecated, override.IsDeprecated)
+
+	if len(override.Agents) > 0 {
+		m.Agents = CopySlice(override.Agents)
+	}
 
 	if override.APIs.ChatCompletion != nil {
 		if m.APIs.ChatCompletion == nil {
@@ -75,15 +85,17 @@ type ChatCompletion struct {
 }
 
 type Parameters struct {
-	Temperature float64        `yaml:"temperature" mapstructure:"temperature"`
-	MaxTokens   int            `yaml:"max_tokens" mapstructure:"max_tokens"`
-	Extra       map[string]any `yaml:",inline" mapstructure:",remain"`
+	Temperature    float64        `yaml:"temperature" mapstructure:"temperature"`
+	MaxTokens      int            `yaml:"max_tokens" mapstructure:"max_tokens"`
+	ReasoningLevel string         `yaml:"reasoning_level" mapstructure:"reasoning_level"`
+	Extra          map[string]any `yaml:",inline" mapstructure:",remain"`
 }
 
 func (p Parameters) Copy() Parameters {
 	copied := Parameters{
-		Temperature: p.Temperature,
-		MaxTokens:   p.MaxTokens,
+		Temperature:    p.Temperature,
+		MaxTokens:      p.MaxTokens,
+		ReasoningLevel: p.ReasoningLevel,
 	}
 	
 	if len(p.Extra) > 0 {
@@ -103,6 +115,7 @@ func (p *Parameters) Merge(override *Parameters) {
 	
 	SetIfNotZero(&p.Temperature, override.Temperature)
 	SetIfNotZero(&p.MaxTokens, override.MaxTokens)
+	SetIfNotZero(&p.ReasoningLevel, override.ReasoningLevel)
 	
 	if len(override.Extra) > 0 {
 		if p.Extra == nil {
@@ -130,6 +143,8 @@ func (c *ChatCompletion) Copy() *ChatCompletion {
 			ToolUse:          c.Features.ToolUse,
 			Thinking:         c.Features.Thinking,
 			ThinkingLevels:   c.Features.ThinkingLevels,
+			Reasoning:        c.Features.Reasoning,
+			ReasoningLevels:  CopySlice(c.Features.ReasoningLevels),
 			StructuredOutput: c.Features.StructuredOutput,
 			AudioInput:       c.Features.AudioInput,
 			ImageOutput:      c.Features.ImageOutput,
@@ -150,6 +165,10 @@ func (c *ChatCompletion) Merge(override *ChatCompletion) {
 	SetIfNotZero(&c.Features.ToolUse, override.Features.ToolUse)
 	SetIfNotZero(&c.Features.Thinking, override.Features.Thinking)
 	SetIfNotZero(&c.Features.ThinkingLevels, override.Features.ThinkingLevels)
+	SetIfNotZero(&c.Features.Reasoning, override.Features.Reasoning)
+	if len(override.Features.ReasoningLevels) > 0 {
+		c.Features.ReasoningLevels = CopySlice(override.Features.ReasoningLevels)
+	}
 	SetIfNotZero(&c.Features.StructuredOutput, override.Features.StructuredOutput)
 	SetIfNotZero(&c.Features.AudioInput, override.Features.AudioInput)
 	SetIfNotZero(&c.Features.ImageOutput, override.Features.ImageOutput)
@@ -163,10 +182,12 @@ type Context struct {
 }
 
 type Features struct {
-	ToolUse          bool `yaml:"tool_use" mapstructure:"tool_use"`
-	Thinking         bool `yaml:"thinking" mapstructure:"thinking"`
-	ThinkingLevels   bool `yaml:"thinking_levels" mapstructure:"thinking_levels"`
-	StructuredOutput bool `yaml:"structured_output" mapstructure:"structured_output"`
-	AudioInput       bool `yaml:"audio_input" mapstructure:"audio_input"`
-	ImageOutput      bool `yaml:"image_output" mapstructure:"image_output"`
+	ToolUse           bool     `yaml:"tool_use" mapstructure:"tool_use"`
+	Thinking          bool     `yaml:"thinking" mapstructure:"thinking"`
+	ThinkingLevels    bool     `yaml:"thinking_levels" mapstructure:"thinking_levels"`
+	Reasoning         bool     `yaml:"reasoning" mapstructure:"reasoning"`
+	ReasoningLevels   []string `yaml:"reasoning_levels" mapstructure:"reasoning_levels"`
+	StructuredOutput  bool     `yaml:"structured_output" mapstructure:"structured_output"`
+	AudioInput        bool     `yaml:"audio_input" mapstructure:"audio_input"`
+	ImageOutput       bool     `yaml:"image_output" mapstructure:"image_output"`
 }
