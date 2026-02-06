@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/workpi-ai/go-utils v0.0.3
-	github.com/workpi-ai/model-registry v0.1.10
+	github.com/workpi-ai/model-registry v0.1.11
 	gopkg.in/yaml.v3 v3.0.1
 )
 
