@@ -24,21 +24,22 @@ func NewLoader(configDir string) *Loader {
 }
 
 func (l *Loader) Load() (map[string]*Provider, error) {
-	var fsys fs.FS
+	providers := make(map[string]*Provider)
+
+	embedFS, err := embed.GetFS()
+	if err != nil {
+		return nil, fmt.Errorf("failed to load embedded data: %w", err)
+	}
+	if err := l.parseFS(providers, embedFS); err != nil {
+		return nil, err
+	}
 
 	localPath := filepath.Join(l.configDir, providersDir)
 	if stat, err := os.Stat(localPath); err == nil && stat.IsDir() {
-		fsys = os.DirFS(localPath)
-	} else {
-		embedFS, err := embed.GetFS()
-		if err != nil {
-			return nil, fmt.Errorf("failed to load embedded data: %w", err)
-		}
-		fsys = embedFS
+		_ = l.parseFS(providers, os.DirFS(localPath))
 	}
 
-	providers := make(map[string]*Provider)
-	return providers, l.parseFS(providers, fsys)
+	return providers, nil
 }
 
 func (l *Loader) parseFS(providers map[string]*Provider, fsys fs.FS) error {
