@@ -148,6 +148,7 @@ func (c *ChatCompletion) Copy() *ChatCompletion {
 			StructuredOutput: c.Features.StructuredOutput,
 			AudioInput:       c.Features.AudioInput,
 			ImageOutput:      c.Features.ImageOutput,
+			ImageInput:       c.Features.ImageInput,
 		},
 		Parameters: c.Parameters.Copy(),
 	}
@@ -172,6 +173,7 @@ func (c *ChatCompletion) Merge(override *ChatCompletion) {
 	SetIfNotZero(&c.Features.StructuredOutput, override.Features.StructuredOutput)
 	SetIfNotZero(&c.Features.AudioInput, override.Features.AudioInput)
 	SetIfNotZero(&c.Features.ImageOutput, override.Features.ImageOutput)
+	SetIfNotZero(&c.Features.ImageInput, override.Features.ImageInput)
 
 	c.Parameters.Merge(&override.Parameters)
 }
@@ -190,4 +192,5 @@ type Features struct {
 	StructuredOutput  bool     `yaml:"structured_output" mapstructure:"structured_output"`
 	AudioInput        bool     `yaml:"audio_input" mapstructure:"audio_input"`
 	ImageOutput       bool     `yaml:"image_output" mapstructure:"image_output"`
+	ImageInput        bool     `yaml:"image_input" mapstructure:"image_input"`
 }
