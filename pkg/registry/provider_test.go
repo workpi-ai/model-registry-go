@@ -132,7 +132,7 @@ func TestModelMerge(t *testing.T) {
 				},
 				Features: Features{
 					ToolUse:          true,
-					Thinking:        false,
+					Thinking:         false,
 					StructuredOutput: true,
 				},
 			},
@@ -187,7 +187,7 @@ func TestChatCompletionMerge(t *testing.T) {
 		},
 		Features: Features{
 			ToolUse:          true,
-			Thinking:        false,
+			Thinking:         false,
 			StructuredOutput: true,
 		},
 		Parameters: Parameters{

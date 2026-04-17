@@ -125,5 +125,3 @@ func (l *Loader) parseModel(providers map[string]*Provider, path string, data []
 
 	return nil
 }
-
-

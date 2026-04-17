@@ -2,7 +2,7 @@ package embed
 
 import (
 	"io/fs"
-	
+
 	registry "github.com/workpi-ai/model-registry"
 )
 

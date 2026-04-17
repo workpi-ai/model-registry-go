@@ -46,7 +46,7 @@ func New(opts Options) (*Registry, error) {
 		return nil, fmt.Errorf("create updater: %w", err)
 	}
 	reg.updater = updater
-	
+
 	if err := reg.reload(); err != nil {
 		return nil, err
 	}

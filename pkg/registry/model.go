@@ -42,9 +42,9 @@ func (m *Model) Validate() error {
 			return fmt.Errorf("model %s: max_output must be positive", m.Name)
 		}
 		if m.APIs.ChatCompletion.Context.MaxOutput > m.APIs.ChatCompletion.Context.MaxInput {
-			return fmt.Errorf("model %s: max_output (%d) cannot exceed max_input (%d)", 
-				m.Name, 
-				m.APIs.ChatCompletion.Context.MaxOutput, 
+			return fmt.Errorf("model %s: max_output (%d) cannot exceed max_input (%d)",
+				m.Name,
+				m.APIs.ChatCompletion.Context.MaxOutput,
 				m.APIs.ChatCompletion.Context.MaxInput)
 		}
 		if m.APIs.ChatCompletion.Parameters.MaxTokens <= 0 {
@@ -97,14 +97,14 @@ func (p Parameters) Copy() Parameters {
 		MaxTokens:      p.MaxTokens,
 		ReasoningLevel: p.ReasoningLevel,
 	}
-	
+
 	if len(p.Extra) > 0 {
 		copied.Extra = make(map[string]any, len(p.Extra))
 		for k, v := range p.Extra {
 			copied.Extra[k] = v
 		}
 	}
-	
+
 	return copied
 }
 
@@ -112,11 +112,11 @@ func (p *Parameters) Merge(override *Parameters) {
 	if override == nil {
 		return
 	}
-	
+
 	SetIfNotZero(&p.Temperature, override.Temperature)
 	SetIfNotZero(&p.MaxTokens, override.MaxTokens)
 	SetIfNotZero(&p.ReasoningLevel, override.ReasoningLevel)
-	
+
 	if len(override.Extra) > 0 {
 		if p.Extra == nil {
 			p.Extra = make(map[string]any)
@@ -184,13 +184,13 @@ type Context struct {
 }
 
 type Features struct {
-	ToolUse           bool     `yaml:"tool_use" mapstructure:"tool_use"`
-	Thinking          bool     `yaml:"thinking" mapstructure:"thinking"`
-	ThinkingLevels    bool     `yaml:"thinking_levels" mapstructure:"thinking_levels"`
-	Reasoning         bool     `yaml:"reasoning" mapstructure:"reasoning"`
-	ReasoningLevels   []string `yaml:"reasoning_levels" mapstructure:"reasoning_levels"`
-	StructuredOutput  bool     `yaml:"structured_output" mapstructure:"structured_output"`
-	AudioInput        bool     `yaml:"audio_input" mapstructure:"audio_input"`
-	ImageOutput       bool     `yaml:"image_output" mapstructure:"image_output"`
-	ImageInput        bool     `yaml:"image_input" mapstructure:"image_input"`
+	ToolUse          bool     `yaml:"tool_use" mapstructure:"tool_use"`
+	Thinking         bool     `yaml:"thinking" mapstructure:"thinking"`
+	ThinkingLevels   bool     `yaml:"thinking_levels" mapstructure:"thinking_levels"`
+	Reasoning        bool     `yaml:"reasoning" mapstructure:"reasoning"`
+	ReasoningLevels  []string `yaml:"reasoning_levels" mapstructure:"reasoning_levels"`
+	StructuredOutput bool     `yaml:"structured_output" mapstructure:"structured_output"`
+	AudioInput       bool     `yaml:"audio_input" mapstructure:"audio_input"`
+	ImageOutput      bool     `yaml:"image_output" mapstructure:"image_output"`
+	ImageInput       bool     `yaml:"image_input" mapstructure:"image_input"`
 }

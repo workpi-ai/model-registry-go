@@ -43,4 +43,3 @@ func main() {
 	fmt.Printf("Max Input: %d\n", model.APIs.ChatCompletion.Context.MaxInput)
 	fmt.Printf("Max Output: %d\n", model.APIs.ChatCompletion.Context.MaxOutput)
 }
-
