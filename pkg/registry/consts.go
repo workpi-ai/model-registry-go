@@ -33,6 +33,7 @@ const (
 	ProviderNameZaiCN        = "zai-cn"
 	ProviderNameMoonshot     = "moonshot"
 	ProviderNameMoonshotCN   = "moonshot-cn"
+	ProviderNameMoonshotSub  = "moonshot-sub"
 	ProviderNameMiniMax      = "minimax"
 	ProviderNameMiniMaxCN    = "minimax-cn"
 	ProviderNameQwen         = "qwen"
