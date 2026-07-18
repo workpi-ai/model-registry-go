@@ -1,9 +1,34 @@
 package registry
 
 import (
+	"reflect"
 	"testing"
 	"time"
 )
+
+func TestEmbeddedReasoningEffortContract(t *testing.T) {
+	reg, err := New(Options{ConfigDir: t.TempDir()})
+	if err != nil {
+		t.Fatalf("New() failed: %v", err)
+	}
+	defer reg.Close()
+
+	model := reg.Model(ProviderNameOpenAISub, "gpt-5.6-sol")
+	if model == nil {
+		t.Fatal("expected embedded gpt-5.6-sol model")
+	}
+	chatCompletion := model.APIs.ChatCompletion
+	if chatCompletion == nil {
+		t.Fatal("expected chat completion config")
+	}
+	if chatCompletion.Parameters.ReasoningEffort != "low" {
+		t.Fatalf("expected reasoning effort low, got %q", chatCompletion.Parameters.ReasoningEffort)
+	}
+	expectedEfforts := []string{"low", "medium", "high", "xhigh", "max", "ultra"}
+	if !reflect.DeepEqual(chatCompletion.Features.ReasoningEfforts, expectedEfforts) {
+		t.Fatalf("expected reasoning efforts %v, got %v", expectedEfforts, chatCompletion.Features.ReasoningEfforts)
+	}
+}
 
 func TestNew(t *testing.T) {
 	tmpDir := t.TempDir()

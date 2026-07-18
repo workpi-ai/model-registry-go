@@ -85,19 +85,19 @@ type ChatCompletion struct {
 }
 
 type Parameters struct {
-	Temperature    float64        `yaml:"temperature" mapstructure:"temperature"`
-	TopP           float64        `yaml:"top_p" mapstructure:"top_p"`
-	MaxTokens      int            `yaml:"max_tokens" mapstructure:"max_tokens"`
-	ReasoningLevel string         `yaml:"reasoning_level" mapstructure:"reasoning_level"`
-	Extra          map[string]any `yaml:",inline" mapstructure:",remain"`
+	Temperature     float64        `yaml:"temperature" mapstructure:"temperature"`
+	TopP            float64        `yaml:"top_p" mapstructure:"top_p"`
+	MaxTokens       int            `yaml:"max_tokens" mapstructure:"max_tokens"`
+	ReasoningEffort string         `yaml:"reasoning_effort" mapstructure:"reasoning_effort"`
+	Extra           map[string]any `yaml:",inline" mapstructure:",remain"`
 }
 
 func (p Parameters) Copy() Parameters {
 	copied := Parameters{
-		Temperature:    p.Temperature,
-		TopP:           p.TopP,
-		MaxTokens:      p.MaxTokens,
-		ReasoningLevel: p.ReasoningLevel,
+		Temperature:     p.Temperature,
+		TopP:            p.TopP,
+		MaxTokens:       p.MaxTokens,
+		ReasoningEffort: p.ReasoningEffort,
 	}
 
 	if len(p.Extra) > 0 {
@@ -118,7 +118,7 @@ func (p *Parameters) Merge(override *Parameters) {
 	SetIfNotZero(&p.Temperature, override.Temperature)
 	SetIfNotZero(&p.TopP, override.TopP)
 	SetIfNotZero(&p.MaxTokens, override.MaxTokens)
-	SetIfNotZero(&p.ReasoningLevel, override.ReasoningLevel)
+	SetIfNotZero(&p.ReasoningEffort, override.ReasoningEffort)
 
 	if len(override.Extra) > 0 {
 		if p.Extra == nil {
@@ -147,7 +147,7 @@ func (c *ChatCompletion) Copy() *ChatCompletion {
 			Thinking:         c.Features.Thinking,
 			ThinkingLevels:   c.Features.ThinkingLevels,
 			Reasoning:        c.Features.Reasoning,
-			ReasoningLevels:  CopySlice(c.Features.ReasoningLevels),
+			ReasoningEfforts: CopySlice(c.Features.ReasoningEfforts),
 			StructuredOutput: c.Features.StructuredOutput,
 			AudioInput:       c.Features.AudioInput,
 			ImageOutput:      c.Features.ImageOutput,
@@ -170,8 +170,8 @@ func (c *ChatCompletion) Merge(override *ChatCompletion) {
 	SetIfNotZero(&c.Features.Thinking, override.Features.Thinking)
 	SetIfNotZero(&c.Features.ThinkingLevels, override.Features.ThinkingLevels)
 	SetIfNotZero(&c.Features.Reasoning, override.Features.Reasoning)
-	if len(override.Features.ReasoningLevels) > 0 {
-		c.Features.ReasoningLevels = CopySlice(override.Features.ReasoningLevels)
+	if len(override.Features.ReasoningEfforts) > 0 {
+		c.Features.ReasoningEfforts = CopySlice(override.Features.ReasoningEfforts)
 	}
 	SetIfNotZero(&c.Features.StructuredOutput, override.Features.StructuredOutput)
 	SetIfNotZero(&c.Features.AudioInput, override.Features.AudioInput)
@@ -191,7 +191,7 @@ type Features struct {
 	Thinking         bool     `yaml:"thinking" mapstructure:"thinking"`
 	ThinkingLevels   bool     `yaml:"thinking_levels" mapstructure:"thinking_levels"`
 	Reasoning        bool     `yaml:"reasoning" mapstructure:"reasoning"`
-	ReasoningLevels  []string `yaml:"reasoning_levels" mapstructure:"reasoning_levels"`
+	ReasoningEfforts []string `yaml:"reasoning_efforts" mapstructure:"reasoning_efforts"`
 	StructuredOutput bool     `yaml:"structured_output" mapstructure:"structured_output"`
 	AudioInput       bool     `yaml:"audio_input" mapstructure:"audio_input"`
 	ImageOutput      bool     `yaml:"image_output" mapstructure:"image_output"`
