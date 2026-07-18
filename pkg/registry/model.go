@@ -86,6 +86,7 @@ type ChatCompletion struct {
 
 type Parameters struct {
 	Temperature    float64        `yaml:"temperature" mapstructure:"temperature"`
+	TopP           float64        `yaml:"top_p" mapstructure:"top_p"`
 	MaxTokens      int            `yaml:"max_tokens" mapstructure:"max_tokens"`
 	ReasoningLevel string         `yaml:"reasoning_level" mapstructure:"reasoning_level"`
 	Extra          map[string]any `yaml:",inline" mapstructure:",remain"`
@@ -94,6 +95,7 @@ type Parameters struct {
 func (p Parameters) Copy() Parameters {
 	copied := Parameters{
 		Temperature:    p.Temperature,
+		TopP:           p.TopP,
 		MaxTokens:      p.MaxTokens,
 		ReasoningLevel: p.ReasoningLevel,
 	}
@@ -114,6 +116,7 @@ func (p *Parameters) Merge(override *Parameters) {
 	}
 
 	SetIfNotZero(&p.Temperature, override.Temperature)
+	SetIfNotZero(&p.TopP, override.TopP)
 	SetIfNotZero(&p.MaxTokens, override.MaxTokens)
 	SetIfNotZero(&p.ReasoningLevel, override.ReasoningLevel)
 
